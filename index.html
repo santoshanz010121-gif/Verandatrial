@@ -1,83 +1,129 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ITE 253 - Restaurant Operations System</title>
   <style>
+    /* ==========================================
+       CSS VARIABLES & THEME CONFIGURATION
+       ========================================== */
     :root {
-      --bg-color: #f4f6f9;
+      --bg-color: #f1f5f9;
       --card-bg: #ffffff;
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
       --success: #16a34a;
+      --success-hover: #15803d;
       --danger: #dc2626;
-      --text: #1f2937;
-      --text-muted: #6b7280;
-      --border: #e5e7eb;
+      --danger-hover: #b91c1c;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* ==========================================
+       BASE & RESET STYLES
+       ========================================== */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
       background-color: var(--bg-color);
-      color: var(--text);
-      padding: 24px;
+      color: var(--text-main);
+      padding: 32px 16px;
       max-width: 1400px;
       margin: 0 auto;
+      line-height: 1.5;
     }
 
+    /* ==========================================
+       HEADER STYLES
+       ========================================== */
     header {
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid var(--border);
+      background: var(--card-bg);
+      padding: 24px 32px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
     header h1 {
-      font-size: 1.8rem;
-      color: var(--text);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
     }
 
     header p {
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.875rem;
+      font-weight: 500;
     }
 
+    /* ==========================================
+       LAYOUT GRID
+       ========================================== */
     .grid-container {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 24px;
+      gap: 32px;
     }
 
     @media (min-width: 1024px) {
       .grid-container {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
       .full-width {
         grid-column: span 2;
       }
     }
 
+    /* ==========================================
+       CARD & CONTAINER STYLES
+       ========================================== */
     .module-card {
       background: var(--card-bg);
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
       border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
     }
 
     .module-card h2 {
-      font-size: 1.25rem;
-      margin-bottom: 16px;
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 20px;
       color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* Form Styling */
+    /* ==========================================
+       FORM & INPUT CONTROLS
+       ========================================== */
     .form-group {
       display: flex;
       gap: 12px;
@@ -85,151 +131,213 @@
       flex-wrap: wrap;
     }
 
-    input, select, button {
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.9rem;
-    }
-
     input {
       flex: 1;
-      min-width: 140px;
+      min-width: 130px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      background-color: var(--card-bg);
+      color: var(--text-main);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
     button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
       background-color: var(--primary);
       color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.2s;
     }
 
-    button:hover {
+    .btn-primary:hover {
       background-color: var(--primary-hover);
+      transform: translateY(-1px);
     }
 
-    /* Waitlist Styling */
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+      width: 100%;
+    }
+
+    .btn-success:hover {
+      background-color: var(--success-hover);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================
+       MODULE 1: WAITLIST QUEUE STYLES
+       ========================================== */
     .queue-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
+      margin-top: 12px;
     }
 
     .queue-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
+      padding: 14px 16px;
       background: var(--bg-color);
-      border-radius: 6px;
+      border-radius: var(--radius-md);
       border-left: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+
+    .queue-item:hover {
+      transform: translateX(2px);
+      background: var(--primary-light);
     }
 
     .badge {
       background: var(--primary);
       color: white;
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
-    /* Table Tracker Styling */
+    /* ==========================================
+       MODULE 2: TABLE TRACKER STYLES
+       ========================================== */
     .summary-chips {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .chip {
-      flex: 1;
-      padding: 12px;
+      padding: 14px 8px;
       background: var(--bg-color);
-      border-radius: 6px;
+      border-radius: var(--radius-md);
       text-align: center;
+      border: 1px solid var(--border);
     }
 
     .chip span {
       display: block;
-      font-size: 1.25rem;
-      font-weight: bold;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
     }
 
     .chip label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
       text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
     }
 
     .tables-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 12px;
     }
 
     .table-card {
-      padding: 16px;
-      border-radius: 8px;
+      padding: 16px 12px;
+      border-radius: var(--radius-md);
       text-align: center;
       color: white;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
       user-select: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-card:hover {
+      transform: scale(1.03);
+      box-shadow: var(--shadow-md);
     }
 
     .table-card.available {
-      background-color: var(--success);
+      background: linear-gradient(135deg, #22c55e, #16a34a);
     }
 
     .table-card.occupied {
-      background-color: var(--danger);
+      background: linear-gradient(135deg, #ef4444, #dc2626);
     }
 
     .table-card small {
       display: block;
-      font-weight: normal;
-      font-size: 0.8rem;
+      font-weight: 500;
+      font-size: 0.75rem;
+      opacity: 0.9;
       margin-top: 4px;
     }
 
-    /* Financial Analytics Styling */
+    /* ==========================================
+       MODULE 3: DASHBOARD STYLES
+       ========================================== */
     .stats-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .stat-card {
-      flex: 1;
-      padding: 16px;
-      border-radius: 8px;
+      padding: 20px;
+      border-radius: var(--radius-md);
       background: var(--bg-color);
       border: 1px solid var(--border);
     }
 
     .stat-card h3 {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       margin-bottom: 6px;
     }
 
     .stat-card .value {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--text);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
+      background: var(--card-bg);
     }
 
     th, td {
-      padding: 10px 12px;
+      padding: 12px 16px;
       text-align: left;
       border-bottom: 1px solid var(--border);
     }
@@ -237,12 +345,24 @@
     th {
       background-color: var(--bg-color);
       color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: var(--primary-light);
     }
 
     .empty-state {
       text-align: center;
       color: var(--text-muted);
-      padding: 20px 0;
+      padding: 24px 0;
       font-style: italic;
     }
   </style>
@@ -250,25 +370,30 @@
 <body>
 
   <header>
-    <h1>Restaurant Operations & Management System</h1>
-    <p>Student: Santos, Hanz Jerwinson G. | Course: ITE 253</p>
+    <div>
+      <h1>Restaurant Operations & Management System</h1>
+      <p>Course: ITE 253 — Integrated Systems Module</p>
+    </div>
+    <div>
+      <p><strong>Student:</strong> Santos, Hanz Jerwinson G.</p>
+    </div>
   </header>
 
   <div class="grid-container">
 
     <!-- Module 1: Waitlist Management -->
     <section class="module-card">
-      <h2>1. Waitlist Management (Queue)</h2>
+      <h2>Waitlist Management (Queue)</h2>
       
       <form id="enqueueForm" class="form-group" onsubmit="handleEnqueue(event)">
         <input type="text" id="guestName" placeholder="Guest Name" required>
         <input type="number" id="partySize" placeholder="Party Size" min="1" required>
         <input type="text" id="contactInfo" placeholder="Contact Info" required>
-        <button type="submit">Enqueue Party</button>
+        <button type="submit" class="btn-primary">Enqueue Party</button>
       </form>
 
       <div style="margin-bottom: 12px;">
-        <button onclick="handleDequeue()" style="background-color: var(--success); width: 100%;">
+        <button onclick="handleDequeue()" class="btn-success">
           Seat Next Party (Dequeue Front)
         </button>
       </div>
@@ -280,7 +405,7 @@
 
     <!-- Module 2: Table Availability Tracker -->
     <section class="module-card">
-      <h2>2. Table Availability Tracker (Array Traversal)</h2>
+      <h2>Table Availability Tracker (Array Traversal)</h2>
       
       <div class="summary-chips">
         <div class="chip">
@@ -297,8 +422,8 @@
         </div>
       </div>
 
-      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
-        * Click a table card to manually toggle its status (Available / Occupied).
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px;">
+        * Click any table card to toggle status manually (Available / Occupied).
       </p>
 
       <div id="tablesGrid" class="tables-grid">
@@ -308,36 +433,38 @@
 
     <!-- Module 3: Financial Analytics Dashboard -->
     <section class="module-card full-width">
-      <h2>3. Financial Analytics Dashboard (Accumulator)</h2>
+      <h2>Financial Analytics Dashboard (Accumulator)</h2>
       
       <div class="stats-row">
         <div class="stat-card">
-          <h3>TOTAL REVENUE</h3>
+          <h3>Total Revenue</h3>
           <div class="value" id="statRevenue">₱0.00</div>
         </div>
         <div class="stat-card">
-          <h3>TOTAL GUESTS SERVED</h3>
+          <h3>Total Guests Served</h3>
           <div class="value" id="statGuests">0</div>
         </div>
         <div class="stat-card">
-          <h3>AVERAGE SPEND / HEAD</h3>
+          <h3>Average Spend / Head</h3>
           <div class="value" id="statAverage">₱0.00</div>
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Timestamp</th>
-            <th>Party Size</th>
-            <th>Total Amount</th>
-          </tr>
-        </thead>
-        <tbody id="salesTableBody">
-          <!-- Rendered via JavaScript -->
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Timestamp</th>
+              <th>Party Size</th>
+              <th>Total Amount</th>
+            </tr>
+          </thead>
+          <tbody id="salesTableBody">
+            <!-- Rendered via JavaScript -->
+          </tbody>
+        </table>
+      </div>
     </section>
 
   </div>
@@ -347,13 +474,11 @@
     // DATA STRUCTURES (State Arrays)
     // ==========================================
     
-    // Module 1: Active Waitlist Queue
     let waitlist = [
       { name: "Customer A", partySize: 2, contact: "09170000001" },
       { name: "Customer B", partySize: 4, contact: "09170000002" }
     ];
 
-    // Module 2: Tables Array
     let tables = [
       { id: 1, capacity: 4, status: "available" },
       { id: 2, capacity: 2, status: "occupied" },
@@ -362,14 +487,13 @@
       { id: 5, capacity: 4, status: "occupied" }
     ];
 
-    // Module 3: Completed Sales Array
     let sales = [
       { id: "TXN-101", timestamp: "12:30 PM", guests: 2, amount: 1000 },
       { id: "TXN-102", timestamp: "01:15 PM", guests: 4, amount: 2000 }
     ];
 
     // ==========================================
-    // MODULE 1: WAITLIST MANAGEMENT LOGIC
+    // MODULE 1: WAITLIST LOGIC
     // ==========================================
     
     function renderWaitlist() {
@@ -381,7 +505,6 @@
         return;
       }
 
-      // Linear shift automatically occurs via array indices in JS
       waitlist.forEach((party, index) => {
         const item = document.createElement("li");
         item.className = "queue-item";
@@ -408,7 +531,6 @@
         contact: contactInput.value.trim()
       };
 
-      // FIFO Enqueue: Push to end of array
       waitlist.push(newParty);
 
       nameInput.value = "";
@@ -424,33 +546,29 @@
         return;
       }
 
-      // FIFO Dequeue: Remove front party (index 0)
       const seatedParty = waitlist.shift();
 
-      // Find an available table with sufficient capacity
       const availableTable = tables.find(t => t.status === "available" && t.capacity >= seatedParty.partySize);
 
       if (availableTable) {
         availableTable.status = "occupied";
         alert(`Seated ${seatedParty.name} (Party of ${seatedParty.partySize}) at Table ${availableTable.id}.`);
       } else {
-        alert(`Dequeued ${seatedParty.name}. No suitable empty table was found automatically; please update table statuses manually.`);
+        alert(`Dequeued ${seatedParty.name}. No available table with sufficient seats was found automatically.`);
       }
 
-      // Update both views
       renderWaitlist();
       renderTables();
     }
 
     // ==========================================
-    // MODULE 2: TABLE AVAILABILITY TRACKER LOGIC
+    // MODULE 2: TABLE TRACKER LOGIC
     // ==========================================
     
     function renderTables() {
       const grid = document.getElementById("tablesGrid");
       grid.innerHTML = "";
 
-      // Linear Traversal with Counter Pattern
       let availableCount = 0;
       let occupiedCount = 0;
       let availableSeats = 0;
@@ -465,7 +583,6 @@
           occupiedCount++;
         }
 
-        // Render card
         const card = document.createElement("div");
         card.className = `table-card ${currentTable.status}`;
         card.onclick = () => toggleTableStatus(currentTable.id);
@@ -477,7 +594,6 @@
         grid.appendChild(card);
       }
 
-      // Update Summary Chips
       document.getElementById("chipOpenTables").innerText = availableCount;
       document.getElementById("chipOccupiedTables").innerText = occupiedCount;
       document.getElementById("chipAvailableSeats").innerText = availableSeats;
@@ -492,7 +608,7 @@
     }
 
     // ==========================================
-    // MODULE 3: FINANCIAL ANALYTICS DASHBOARD LOGIC
+    // MODULE 3: FINANCIAL ANALYTICS LOGIC
     // ==========================================
     
     function renderAnalytics() {
@@ -502,7 +618,6 @@
       const tbody = document.getElementById("salesTableBody");
       tbody.innerHTML = "";
 
-      // Accumulation Pattern within a Linear Traversal
       for (let i = 0; i < sales.length; i++) {
         const record = sales[i];
         totalRevenue += record.amount;
@@ -518,26 +633,19 @@
         tbody.appendChild(row);
       }
 
-      // Edge case fix: prevent Division by Zero if guest count is zero
       const averageSpend = totalGuests > 0 ? (totalRevenue / totalGuests) : 0;
 
-      // Update Analytics Displays
       document.getElementById("statRevenue").innerText = `₱${totalRevenue.toLocaleString("en-PH", { minimumFractionDigits: 2 })}`;
       document.getElementById("statGuests").innerText = totalGuests;
       document.getElementById("statAverage").innerText = `₱${averageSpend.toLocaleString("en-PH", { minimumFractionDigits: 2 })}`;
     }
 
-    // ==========================================
-    // INITIALIZATION
-    // ==========================================
-    function initSystem() {
+    // Initialize state views on load
+    window.onload = function() {
       renderWaitlist();
       renderTables();
       renderAnalytics();
-    }
-
-    // Execute on page load
-    window.onload = initSystem;
+    };
   </script>
 </body>
 </html>
