@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Veranda Garden Management system</title>
+  <title>Veranda Garden Management System</title>
   <style>
     :root {
       --bg-color: #f1f5f9;
@@ -25,6 +25,7 @@
       --radius-lg: 16px;
       --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -62,11 +63,6 @@
       letter-spacing: -0.02em;
     }
 
-    header p {
-      color: var(--text-muted);
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
     .grid-container {
       display: grid;
       grid-template-columns: 1fr;
@@ -81,6 +77,7 @@
         grid-column: span 2;
       }
     }
+
     .module-card {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
@@ -102,6 +99,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .form-group {
       display: flex;
       gap: 12px;
@@ -340,9 +338,7 @@
 
   <header>
     <div>
-      <h1>Veranda Resto garden Management System</h1>
-    </div>
-    <div>
+      <h1>Veranda Resto Garden Management System</h1>
     </div>
   </header>
 
@@ -355,7 +351,7 @@
         <input type="text" id="guestName" placeholder="Guest Name" required>
         <input type="number" id="partySize" placeholder="Party Size" min="1" required>
         <input type="text" id="contactInfo" placeholder="Contact Info" required>
-        <button type="submit" class="btn-primary">Enqueue Party</button>
+        <button type="submit" class="btn-primary">Enqueue Group</button>
       </form>
 
       <div style="margin-bottom: 12px;">
@@ -432,8 +428,7 @@
 
   <script>
 
-    let waitlist = [
-    ];
+    let waitlist = [];
 
     let tables = [
       { id: 1, capacity: 4, status: "available" },
@@ -443,8 +438,10 @@
       { id: 5, capacity: 4, status: "occupied" }
     ];
 
+    // Added sample completed transactions so analytics render on load
     let sales = [
-    
+      { id: "TXN-101", timestamp: "12:30 PM", guests: 2, amount: 1000 },
+      { id: "TXN-102", timestamp: "01:15 PM", guests: 4, amount: 2000 }
     ];
     
     function renderWaitlist() {
