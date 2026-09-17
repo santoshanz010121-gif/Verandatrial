@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ITE 253 - Restaurant Operations System</title>
+  <title>Veranda Garden Management system</title>
   <style>
-    /* ==========================================
-       CSS VARIABLES & THEME CONFIGURATION
-       ========================================== */
     :root {
       --bg-color: #f1f5f9;
       --card-bg: #ffffff;
@@ -28,10 +25,6 @@
       --radius-lg: 16px;
       --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    /* ==========================================
-       BASE & RESET STYLES
-       ========================================== */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -77,10 +70,6 @@
       font-size: 0.875rem;
       font-weight: 500;
     }
-
-    /* ==========================================
-       LAYOUT GRID
-       ========================================== */
     .grid-container {
       display: grid;
       grid-template-columns: 1fr;
@@ -95,10 +84,6 @@
         grid-column: span 2;
       }
     }
-
-    /* ==========================================
-       CARD & CONTAINER STYLES
-       ========================================== */
     .module-card {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
@@ -120,10 +105,6 @@
       align-items: center;
       gap: 8px;
     }
-
-    /* ==========================================
-       FORM & INPUT CONTROLS
-       ========================================== */
     .form-group {
       display: flex;
       gap: 12px;
@@ -371,19 +352,16 @@
 
   <header>
     <div>
-      <h1>Restaurant Operations & Management System</h1>
-      <p>Course: ITE 253 — Integrated Systems Module</p>
+      <h1>Veranda Resto garden Management System</h1>
     </div>
     <div>
-      <p><strong>Student:</strong> Santos, Hanz Jerwinson G.</p>
     </div>
   </header>
 
   <div class="grid-container">
 
-    <!-- Module 1: Waitlist Management -->
     <section class="module-card">
-      <h2>Waitlist Management (Queue)</h2>
+      <h2>Waitlist Management</h2>
       
       <form id="enqueueForm" class="form-group" onsubmit="handleEnqueue(event)">
         <input type="text" id="guestName" placeholder="Guest Name" required>
@@ -399,13 +377,11 @@
       </div>
 
       <ul id="waitlistQueue" class="queue-list">
-        <!-- Rendered via JavaScript -->
       </ul>
     </section>
 
-    <!-- Module 2: Table Availability Tracker -->
     <section class="module-card">
-      <h2>Table Availability Tracker (Array Traversal)</h2>
+      <h2>Table Availability</h2>
       
       <div class="summary-chips">
         <div class="chip">
@@ -427,13 +403,11 @@
       </p>
 
       <div id="tablesGrid" class="tables-grid">
-        <!-- Rendered via JavaScript -->
       </div>
     </section>
 
-    <!-- Module 3: Financial Analytics Dashboard -->
     <section class="module-card full-width">
-      <h2>Financial Analytics Dashboard (Accumulator)</h2>
+      <h2>Financial Analytics</h2>
       
       <div class="stats-row">
         <div class="stat-card">
@@ -461,7 +435,6 @@
             </tr>
           </thead>
           <tbody id="salesTableBody">
-            <!-- Rendered via JavaScript -->
           </tbody>
         </table>
       </div>
@@ -470,13 +443,8 @@
   </div>
 
   <script>
-    // ==========================================
-    // DATA STRUCTURES (State Arrays)
-    // ==========================================
-    
+
     let waitlist = [
-      { name: "Customer A", partySize: 2, contact: "09170000001" },
-      { name: "Customer B", partySize: 4, contact: "09170000002" }
     ];
 
     let tables = [
@@ -488,13 +456,8 @@
     ];
 
     let sales = [
-      { id: "TXN-101", timestamp: "12:30 PM", guests: 2, amount: 1000 },
-      { id: "TXN-102", timestamp: "01:15 PM", guests: 4, amount: 2000 }
+    
     ];
-
-    // ==========================================
-    // MODULE 1: WAITLIST LOGIC
-    // ==========================================
     
     function renderWaitlist() {
       const container = document.getElementById("waitlistQueue");
@@ -560,10 +523,6 @@
       renderWaitlist();
       renderTables();
     }
-
-    // ==========================================
-    // MODULE 2: TABLE TRACKER LOGIC
-    // ==========================================
     
     function renderTables() {
       const grid = document.getElementById("tablesGrid");
@@ -607,10 +566,6 @@
       }
     }
 
-    // ==========================================
-    // MODULE 3: FINANCIAL ANALYTICS LOGIC
-    // ==========================================
-    
     function renderAnalytics() {
       let totalRevenue = 0;
       let totalGuests = 0;
@@ -640,7 +595,6 @@
       document.getElementById("statAverage").innerText = `₱${averageSpend.toLocaleString("en-PH", { minimumFractionDigits: 2 })}`;
     }
 
-    // Initialize state views on load
     window.onload = function() {
       renderWaitlist();
       renderTables();
