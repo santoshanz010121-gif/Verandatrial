@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITE 253 - Restaurant Operations System</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text);
+      padding: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--text);
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 1024px) {
+      .grid-container {
+        grid-template-columns: 1fr 1fr;
+      }
+      .full-width {
+        grid-column: span 2;
+      }
+    }
+
+    .module-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid var(--border);
+    }
+
+    .module-card h2 {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      color: var(--primary);
+    }
+
+    /* Form Styling */
+    .form-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    input, select, button {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    input {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Waitlist Styling */
+    .queue-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .queue-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: var(--bg-color);
+      border-radius: 6px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .badge {
+      background: var(--primary);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    /* Table Tracker Styling */
+    .summary-chips {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      flex: 1;
+      padding: 12px;
+      background: var(--bg-color);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .chip span {
+      display: block;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .chip label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .table-card {
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .table-card.available {
+      background-color: var(--success);
+    }
+
+    .table-card.occupied {
+      background-color: var(--danger);
+    }
+
+    .table-card small {
+      display: block;
+      font-weight: normal;
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    /* Financial Analytics Styling */
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      flex: 1;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+    }
+
+    .stat-card h3 {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-card .value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--text);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background-color: var(--bg-color);
+      color: var(--text-muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 20px 0;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Restaurant Operations & Management System</h1>
+    <p>Student: Santos, Hanz Jerwinson G. | Course: ITE 253</p>
+  </header>
+
+  <div class="grid-container">
+
+    <!-- Module 1: Waitlist Management -->
+    <section class="module-card">
+      <h2>1. Waitlist Management (Queue)</h2>
+      
+      <form id="enqueueForm" class="form-group" onsubmit="handleEnqueue(event)">
+        <input type="text" id="guestName" placeholder="Guest Name" required>
+        <input type="number" id="partySize" placeholder="Party Size" min="1" required>
+        <input type="text" id="contactInfo" placeholder="Contact Info" required>
+        <button type="submit">Enqueue Party</button>
+      </form>
+
+      <div style="margin-bottom: 12px;">
+        <button onclick="handleDequeue()" style="background-color: var(--success); width: 100%;">
+          Seat Next Party (Dequeue Front)
+        </button>
+      </div>
+
+      <ul id="waitlistQueue" class="queue-list">
+        <!-- Rendered via JavaScript -->
+      </ul>
+    </section>
+
+    <!-- Module 2: Table Availability Tracker -->
+    <section class="module-card">
+      <h2>2. Table Availability Tracker (Array Traversal)</h2>
+      
+      <div class="summary-chips">
+        <div class="chip">
+          <span id="chipOpenTables">0</span>
+          <label>Open Tables</label>
+        </div>
+        <div class="chip">
+          <span id="chipOccupiedTables">0</span>
+          <label>Occupied Tables</label>
+        </div>
+        <div class="chip">
+          <span id="chipAvailableSeats">0</span>
+          <label>Available Seats</label>
+        </div>
+      </div>
+
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+        * Click a table card to manually toggle its status (Available / Occupied).
+      </p>
+
+      <div id="tablesGrid" class="tables-grid">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Module 3: Financial Analytics Dashboard -->
+    <section class="module-card full-width">
+      <h2>3. Financial Analytics Dashboard (Accumulator)</h2>
+      
+      <div class="stats-row">
+        <div class="stat-card">
+          <h3>TOTAL REVENUE</h3>
+          <div class="value" id="statRevenue">₱0.00</div>
+        </div>
+        <div class="stat-card">
+          <h3>TOTAL GUESTS SERVED</h3>
+          <div class="value" id="statGuests">0</div>
+        </div>
+        <div class="stat-card">
+          <h3>AVERAGE SPEND / HEAD</h3>
+          <div class="value" id="statAverage">₱0.00</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Timestamp</th>
+            <th>Party Size</th>
+            <th>Total Amount</th>
+          </tr>
+        </thead>
+        <tbody id="salesTableBody">
+          <!-- Rendered via JavaScript -->
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <script>
+    // ==========================================
+    // DATA STRUCTURES (State Arrays)
+    // ==========================================
+    
+    // Module 1: Active Waitlist Queue
+    let waitlist = [
+      { name: "Customer A", partySize: 2, contact: "09170000001" },
+      { name: "Customer B", partySize: 4, contact: "09170000002" }
+    ];
+
+    // Module 2: Tables Array
+    let tables = [
+      { id: 1, capacity: 4, status: "available" },
+      { id: 2, capacity: 2, status: "occupied" },
+      { id: 3, capacity: 6, status: "available" },
+      { id: 4, capacity: 2, status: "available" },
+      { id: 5, capacity: 4, status: "occupied" }
+    ];
+
+    // Module 3: Completed Sales Array
+    let sales = [
+      { id: "TXN-101", timestamp: "12:30 PM", guests: 2, amount: 1000 },
+      { id: "TXN-102", timestamp: "01:15 PM", guests: 4, amount: 2000 }
+    ];
+
+    // ==========================================
+    // MODULE 1: WAITLIST MANAGEMENT LOGIC
+    // ==========================================
+    
+    function renderWaitlist() {
+      const container = document.getElementById("waitlistQueue");
+      container.innerHTML = "";
+
+      if (waitlist.length === 0) {
+        container.innerHTML = `<li class="empty-state">No parties currently in queue.</li>`;
+        return;
+      }
+
+      // Linear shift automatically occurs via array indices in JS
+      waitlist.forEach((party, index) => {
+        const item = document.createElement("li");
+        item.className = "queue-item";
+        item.innerHTML = `
+          <div>
+            <strong>${party.name}</strong> (${party.partySize} guests)
+            <br><small style="color: var(--text-muted);">${party.contact}</small>
+          </div>
+          <span class="badge">Position ${index + 1}</span>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function handleEnqueue(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById("guestName");
+      const sizeInput = document.getElementById("partySize");
+      const contactInput = document.getElementById("contactInfo");
+
+      const newParty = {
+        name: nameInput.value.trim(),
+        partySize: parseInt(sizeInput.value),
+        contact: contactInput.value.trim()
+      };
+
+      // FIFO Enqueue: Push to end of array
+      waitlist.push(newParty);
+
+      nameInput.value = "";
+      sizeInput.value = "";
+      contactInput.value = "";
+
+      renderWaitlist();
+    }
+
+    function handleDequeue() {
+      if (waitlist.length === 0) {
+        alert("The waitlist is currently empty!");
+        return;
+      }
+
+      // FIFO Dequeue: Remove front party (index 0)
+      const seatedParty = waitlist.shift();
+
+      // Find an available table with sufficient capacity
+      const availableTable = tables.find(t => t.status === "available" && t.capacity >= seatedParty.partySize);
+
+      if (availableTable) {
+        availableTable.status = "occupied";
+        alert(`Seated ${seatedParty.name} (Party of ${seatedParty.partySize}) at Table ${availableTable.id}.`);
+      } else {
+        alert(`Dequeued ${seatedParty.name}. No suitable empty table was found automatically; please update table statuses manually.`);
+      }
+
+      // Update both views
+      renderWaitlist();
+      renderTables();
+    }
+
+    // ==========================================
+    // MODULE 2: TABLE AVAILABILITY TRACKER LOGIC
+    // ==========================================
+    
+    function renderTables() {
+      const grid = document.getElementById("tablesGrid");
+      grid.innerHTML = "";
+
+      // Linear Traversal with Counter Pattern
+      let availableCount = 0;
+      let occupiedCount = 0;
+      let availableSeats = 0;
+
+      for (let i = 0; i < tables.length; i++) {
+        const currentTable = tables[i];
+
+        if (currentTable.status === "available") {
+          availableCount++;
+          availableSeats += currentTable.capacity;
+        } else {
+          occupiedCount++;
+        }
+
+        // Render card
+        const card = document.createElement("div");
+        card.className = `table-card ${currentTable.status}`;
+        card.onclick = () => toggleTableStatus(currentTable.id);
+        card.innerHTML = `
+          Table ${currentTable.id}
+          <small>${currentTable.capacity} Seats</small>
+          <small>[${currentTable.status.toUpperCase()}]</small>
+        `;
+        grid.appendChild(card);
+      }
+
+      // Update Summary Chips
+      document.getElementById("chipOpenTables").innerText = availableCount;
+      document.getElementById("chipOccupiedTables").innerText = occupiedCount;
+      document.getElementById("chipAvailableSeats").innerText = availableSeats;
+    }
+
+    function toggleTableStatus(tableId) {
+      const table = tables.find(t => t.id === tableId);
+      if (table) {
+        table.status = table.status === "available" ? "occupied" : "available";
+        renderTables();
+      }
+    }
+
+    // ==========================================
+    // MODULE 3: FINANCIAL ANALYTICS DASHBOARD LOGIC
+    // ==========================================
+    
+    function renderAnalytics() {
+      let totalRevenue = 0;
+      let totalGuests = 0;
+
+      const tbody = document.getElementById("salesTableBody");
+      tbody.innerHTML = "";
+
+      // Accumulation Pattern within a Linear Traversal
+      for (let i = 0; i < sales.length; i++) {
+        const record = sales[i];
+        totalRevenue += record.amount;
+        totalGuests += record.guests;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${record.id}</td>
+          <td>${record.timestamp}</td>
+          <td>${record.guests}</td>
+          <td>₱${record.amount.toLocaleString("en-PH", { minimumFractionDigits: 2 })}</td>
+        `;
+        tbody.appendChild(row);
+      }
+
+      // Edge case fix: prevent Division by Zero if guest count is zero
+      const averageSpend = totalGuests > 0 ? (totalRevenue / totalGuests) : 0;
+
+      // Update Analytics Displays
+      document.getElementById("statRevenue").innerText = `₱${totalRevenue.toLocaleString("en-PH", { minimumFractionDigits: 2 })}`;
+      document.getElementById("statGuests").innerText = totalGuests;
+      document.getElementById("statAverage").innerText = `₱${averageSpend.toLocaleString("en-PH", { minimumFractionDigits: 2 })}`;
+    }
+
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+    function initSystem() {
+      renderWaitlist();
+      renderTables();
+      renderAnalytics();
+    }
+
+    // Execute on page load
+    window.onload = initSystem;
+  </script>
+</body>
+</html>
